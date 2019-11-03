@@ -34,23 +34,23 @@ def store_if_shelly(ip,shellys):
 
 
 def set_timer(ip,relay,on_for):
-        res = requests.get(f"http://{ip}/relay/{relay}?turn=on&timer={on_for}")
-        if res.status_code == 200:
-            logging.info(f'Turned on shelly - {res.json()}')
-        else:
-            logging.error(f'Failed to runs on shelly {shelly}, response={res}')
+    res = requests.get("http://%s/relay/%s?turn=on&timer=%s"%(ip, relay, on_for))
+    if res.status_code == 200:
+        logging.info('Turned on shelly - %s'%res.json())
+    else:
+        logging.error('Failed to runs on shelly %s, response=%s'%(ip, res))
 
 
 def get_shelly_status(ip):
     try:
         res = requests.get(
-                f'http://{ip}/status',
+                'http://%s/status'%ip,
                 timeout=config.http_timeout
             )
     except requests.exceptions.Timeout:
-        logging.debug(f"No HTTP response from {ip}")
+        logging.debug("No HTTP response from %s"%ip)
     except OSError:
-        logging.error(f"OSError querying {ip}", exc_info=True)
+        logging.error("OSError querying %s"%ip, exc_info=True)
     else:
         if res.status_code == 200:
             return res.json()
