@@ -1,0 +1,21 @@
+# Dictionary describing desired config
+# Key (e.g '012345' is the max suffix - this is listed in the app under device settings, device information, "DEVICE ID". Must be in upper-case as this is what the API returns.
+# The set describe which relays to trigger as part of the script
+#(0,) = first relay
+#(0,1) = both relays
+#() = no relays
+shellymac2name = {
+    '012345': ('Light1', (0,)),
+    '6789AB': ('Both Lights on shelly2.5', (0,1)),
+    'DEF012': ('Outlet', ()),
+}
+
+http_timeout=0.2 #how long to wait for an HTTP response when scanning
+
+subnet = '192.168.1.0/24' #nework to scan
+
+prob = 0.1 #number between 0 & 1 to indicate probability of turning on an individual light on any given run of the script
+
+#max and min seconds to leave the light on for (will select a random number between these)
+max_on = 3600
+min_on = 30
