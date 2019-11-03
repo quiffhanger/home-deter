@@ -16,7 +16,7 @@ def find_shellys(subnet):
     for t in threads:
         t.join()
 
-    logging.info(f'Found {len(shellys)} shellys')
+    logging.info('Found %s shellys'%len(shellys))
     return shellys
 
 
