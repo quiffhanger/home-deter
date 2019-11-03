@@ -5,6 +5,7 @@ from shelly import *
 logging.basicConfig(level=logging.INFO)
 
 shellys = find_shellys(config.subnet)
+
 for shelly in shellys:
     try:
         name, relays = lookup_shelly_config(shelly['mac'])
