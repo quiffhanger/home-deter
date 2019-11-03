@@ -2,8 +2,7 @@
 import random
 from shelly import *
 
-logging.basicConfig(level=logging.INFO)
-
+logging.basicConfig(level=config.log_level)
 shellys = find_shellys(config.subnet)
 
 for shelly in shellys:
