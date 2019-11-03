@@ -47,10 +47,8 @@ def get_shelly_status(ip):
                 'http://%s/status'%ip,
                 timeout=config.http_timeout
             )
-    except requests.exceptions.Timeout:
-        logging.debug("No HTTP response from %s"%ip)
-    except OSError:
-        logging.error("OSError querying %s"%ip, exc_info=True)
+    except:
+        logging.debug("Error querying %s (probably not a shelly on that IP)"%ip, exc_info=True)
     else:
         if res.status_code == 200:
             return res.json()
