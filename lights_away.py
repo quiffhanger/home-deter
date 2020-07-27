@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env python3
 import random
 from shelly import *
@@ -45,4 +44,3 @@ for shelly in shellys:
                 set_timer(ip, relay, on_for)
             else:
                 logging.info('NOT turning on relay %s for shelly %s'%(relay, name))
->>>>>>> 9f7bdbec2f071d932ab935dae9745f0d2c7dcf10

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import threading
 from ipaddress import ip_network
 import requests
@@ -152,4 +151,3 @@ def get_shelly_status(ip):
     else:
         if res.status_code == 200:
             return res.json()
->>>>>>> 9f7bdbec2f071d932ab935dae9745f0d2c7dcf10
