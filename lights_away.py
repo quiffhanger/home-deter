@@ -45,4 +45,4 @@ for shelly in shellys:
             else:
                 logging.info('NOT turning on relay %s for shelly %s'%(relay, name))
 
-#test change
+#test change 2
