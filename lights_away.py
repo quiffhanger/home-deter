@@ -5,6 +5,7 @@ from shelly import *
 logging.basicConfig(level=logging.INFO)
 
 shellys = find_shellys(config.subnet)
+logging.info('Found %s shellies' % len(shellys))
 for shelly in shellys:
     try:
         name, relays = lookup_shelly_config(shelly['mac'])
@@ -17,6 +18,6 @@ for shelly in shellys:
             if random.random() < config.prob:
                 on_for = random.randint(config.min_on,config.max_on)
                 logging.info('Turning on relay %s for shelly %s for %s seconds'%(relay, name, on_for))
-                set_timer(ip, relay, on_for)
+                #set_timer(ip, relay, on_for)
             else:
                 logging.info('NOT turning on relay %s for shelly %s'%(relay, name))
