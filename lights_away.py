@@ -44,3 +44,5 @@ for shelly in shellys:
                 set_timer(ip, relay, on_for)
             else:
                 logging.info('NOT turning on relay %s for shelly %s'%(relay, name))
+
+#test change
