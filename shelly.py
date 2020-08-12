@@ -6,8 +6,9 @@ import config
 import pickle
 import os
 from flask import jsonify
+import tempfile
 
-CACHE_PATH = os.path.join(os.environ['tmp'], 'shellys.pickle')
+CACHE_PATH = os.path.join(tempfile.gettempdir(), 'shellys.pickle')
 logging.basicConfig(level=logging.INFO)
 
 def get_shellys(subnet):
