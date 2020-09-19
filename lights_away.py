@@ -1,9 +1,23 @@
 #!/usr/bin/env python3
 import random
-from shelly import *
+import shelly
+import logging
+import config
+import pprint
 
-logging.basicConfig(level=config.log_level)
-shellys = find_shellys(config.subnet)
+logging.basicConfig(level=logging.INFO)
+
+for s in shelly.get_shellys(config.subnet, max_cache=0):
+    if s.name not in config.lights_away_ignore_list:
+        if random.random() < config.prob:
+            on_for = random.randint(config.min_on, config.max_on)
+            logging.info('Turning on shelly %s for %s seconds' % (s, on_for))
+            s.set_timer(on_for)
+        else:
+            logging.info('NOT turning on relay shelly %s' % (s))
+
+shellys=[]
+#shellys = find_shellys(config.subnet)
 
 for shelly in shellys:
     try:
