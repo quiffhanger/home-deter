@@ -62,6 +62,10 @@ class Shelly:
         return self.settings['name']
 
     @property
+    def names(self):
+        return (self.settings['name'],)
+
+    @property
     def mac(self):
         return self.shelly['mac']
 
@@ -90,6 +94,12 @@ class Shelly:
             logging.info('Turned on shelly - %s' % res.json())
         else:
             logging.error('Failed to runs on shelly %s, response=%s' % (ip, res))
+
+class Shelly25(Shelly):
+    @property
+    def names(self):
+        for relay in self.settings['relays']:
+            yield relay['name']
 
 class ShellyBulb(Shelly):
 
@@ -139,7 +149,7 @@ def save_shellys(shellys):
     with open(CACHE_PATH, 'wb') as f:
         pickle.dump(shellys, f)
 
-def find_by_name(name,shellys):
+def find_by_name(name):
     '''Find a shelly by it's name
         Parameters:
             a (str): Name of the device (if settings, sync name is turned on this will match name in Shelly App)
@@ -170,6 +180,7 @@ def scan_for_shellys(subnet):
 class_map = {
     'SHDM-1': ShellyDimmer,
     'SHBLB-1': ShellyBulb,
+    'SHSW-25': Shelly25,
 }
 
 def store_if_shelly(ip, shellys):
