@@ -158,7 +158,7 @@ def find_by_name(name):
         Returns:
             shelly (Shelly): first matching shelly device. None if no match
     '''
-    for shelly in shellys:
+    for shelly in get_shellys(config.subnet):
         if shelly.name == name:
             return shelly
 

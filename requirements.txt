@@ -1,1 +1,8 @@
 requests
+pychromecast
+gtts
+Flask
+pychromecast
+unicode_slugify
+pathlib
+slugify

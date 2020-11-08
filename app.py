@@ -1,4 +1,4 @@
-from flask import Flask, request, url_for
+from flask import Flask, request, url_for, jsonify
 import logging
 from gtts import gTTS
 from slugify import slugify
@@ -9,12 +9,36 @@ import os
 import nesthome
 import shelly
 import config
+import requests
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return shelly.get_shellys(config.subnet)
+@app.route('/all')
+def all():
+    shellys = {}
+    for s in shelly.get_shellys(config.subnet):
+        ip = str(s.ip)
+        shellys[s.name or ip] = {
+            'ip': ip,
+            'hostname': s.settings['device']['hostname'],
+            'mac': s.mac,
+            'class': str(s.__class__),
+        }
+
+    return jsonify(shellys)
+
+@app.route('/p/<name>/<path:p>')
+def proxy(name, p):
+    '''Allows you to reference shellys by the name defined in app not IP'''
+    url = '/'.join(('http:/', str(shelly.find_by_name(name).ip), p))
+    r = requests.get(url, params=request.args)
+    return jsonify(r.json())
+
+@app.route('/shelly/<name>/<funcname>')
+def shelly_func(name, funcname):
+    '''Call any function on a given shelly object'''
+    s = shelly.find_by_name(name)
+    return getattr(s, funcname)(**request.args)
 
 def play_tts(text, device, lang='en', slow=False, volume=None):
     cc = nesthome.find_by_name(device)
@@ -30,7 +54,7 @@ def play_tts(text, device, lang='en', slow=False, volume=None):
     #urlparts = urlparse(request.url)
     #mp3_url = "http://" +urlparts.netloc + path + filename
 
-    mp3_url=url_for('static', filename='/'.join(('cache',filename)), _external=True)
+    mp3_url=url_for('static', filename='/'.join(('cache', filename)), _external=True)
     logging.info(mp3_url)
     cc.play_mp3(mp3_url, volume=volume)
 
